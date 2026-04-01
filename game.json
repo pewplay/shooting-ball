@@ -1,0 +1,8 @@
+{
+  "title": "Shooting Ball",
+  "description": "Aim and shoot the balls to clear the level and score points.",
+  "keywords": ["shooter", "ball", "arcade", "aim"],
+  "category": "Arcade",
+  "author": "PewPlay",
+  "playMode": "SinglePlayer"
+}
