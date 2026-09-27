@@ -1,8 +1,53 @@
 {
+  "$schema": "https://raw.githubusercontent.com/pewplay/pewplay/main/schema/game.schema.json",
   "title": "Shooting Ball",
-  "description": "Aim and shoot the balls to clear the level and score points.",
-  "keywords": ["shooter", "ball", "arcade", "aim"],
+  "description": "Defend the white ball in the center: shoot the red balls rushing in from every side before they reach you. Free to play in your browser.",
+  "about": "Shooting Ball is a minimalist arcade shooter. You are the small white ball in the middle of a dark screen, and red balls of every size keep drifting towards you from all four edges. Click or tap anywhere and a shot flies in that direction.\n\nSmall red balls burst with a single hit, while big ones shrink with each shot until they pop, so large targets are worth more but take longer to clear. A new enemy appears every second, and the pressure builds fast as they close in from several sides at once.\n\nEvery thirty seconds a yellow ball joins the wave. Shoot it for points, or let it touch you to trigger a red shockwave that wipes every enemy off the screen. It is a quick, reflex-driven game that is easy to learn and hard to put down.",
+  "howToPlay": "Press Start, then click or tap where you want to shoot: bullets fly from the center towards your pointer. Destroy the red balls before any of them touches you, because one hit ends the game. Big balls shrink with each hit, and a yellow ball that reaches you clears the whole screen.",
+  "controls": [
+    {
+      "input": "Click / Tap",
+      "action": "Shoot towards the pointer"
+    },
+    {
+      "input": "Start button",
+      "action": "Start a new game"
+    }
+  ],
+  "tips": [
+    "Deal with the closest ball first, even if it is small: distance matters more than size.",
+    "Big balls need several hits, so start shooting them while they are still far away.",
+    "Save the yellow ball for when you are surrounded: letting it touch you clears every enemy.",
+    "Keep an eye on all four edges, since enemies can arrive from any side."
+  ],
+  "faq": [
+    {
+      "question": "Is Shooting Ball free to play?",
+      "answer": "Yes. Shooting Ball is completely free and runs in your browser, with no download or sign-up."
+    },
+    {
+      "question": "Can I play on a phone or tablet?",
+      "answer": "Yes. Just tap where you want to shoot; the game fills the screen on phones, tablets and computers."
+    },
+    {
+      "question": "How is the score calculated?",
+      "answer": "Every hit that shrinks a big ball gives 10 points and every ball you destroy gives 25. Enemies cleared by the yellow shockwave are worth 10 points each."
+    }
+  ],
   "category": "Arcade",
+  "tags": [
+    "shooter",
+    "reflex",
+    "arcade",
+    "survival",
+    "minimalist"
+  ],
   "author": "PewPlay",
-  "playMode": "SinglePlayer"
+  "playMode": "SinglePlayer",
+  "orientation": "any",
+  "cover": "cover.png",
+  "screenshots": [
+    "screenshots/1.png",
+    "screenshots/2.png"
+  ]
 }

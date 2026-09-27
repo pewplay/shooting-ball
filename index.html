@@ -1,30 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="shortcut icon" href="icon.png" type="image/png">
-  <title>Shooting Game</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shooting Ball</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="icon.png" type="image/png">
 </head>
-
 <body>
-  <div class="fixed text-white text-sm ml-2 mt-1 select-none"><span>Score: </span><span id="scoreEl">0</span></div>
-  <div id="modalEl" class="fixed inset-0 flex items-center justify-center">
-    <div class="bg-white max-w-md w-full p-6 text-center">
-      <h1 id="bigScoreEl" class="text-4xl font-bold leading-none">0</h1>
-      <p class="text-sm text-gray-700 mb-4">Punti</p>
-      <div>
-        <button id="startgameBtn" class="bg-blue-500 text-white w-full py-3 rounded-full text-sm">Start</button>
-      </div>
+  <div class="hud"><span>Score: </span><span id="scoreEl">0</span></div>
+  <div id="modalEl" class="modal">
+    <div class="modal__box">
+      <h1 id="bigScoreEl" class="modal__score">0</h1>
+      <p class="modal__label">Points</p>
+      <p class="modal__help">Click or tap to shoot the red balls before they reach you.<br>Touch a yellow ball to blast every enemy on screen.</p>
+      <button id="startgameBtn" class="modal__btn" type="button">Start</button>
     </div>
   </div>
   <canvas></canvas>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
   <script src="script.js"></script>
 </body>
-
 </html>
