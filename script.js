@@ -5,10 +5,27 @@ const startgameBtn = document.querySelector("#startgameBtn");
 const modalEl = document.querySelector("#modalEl");
 const bigScoreEl = document.querySelector("#bigScoreEl");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+let x;
+let y;
+function resize() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  x = canvas.width / 2;
+  y = canvas.height / 2;
+  if (typeof player !== "undefined") { player.x = x; player.y = y; }
+}
+resize();
+addEventListener("resize", resize);
 
-var ctx = canvas.getContext("2d");
+// Piccola animazione del raggio (sostituisce gsap.to)
+function shrink(target, to) {
+  const from = target.radius, start = performance.now(), dur = 300;
+  (function step(now) {
+    const t = Math.min(1, (now - start) / dur);
+    target.radius = from + (to - from) * (1 - Math.pow(1 - t, 3));
+    if (t < 1) requestAnimationFrame(step);
+  })(start);
+}
 
 class Player {
   constructor(x, y, radius, color) {
@@ -121,56 +138,38 @@ class Particle {
 }
 
 function new_circle() {
-  c.strokeStyle = "red";
-  c.lineWidth = 5;
-
-  var startTime = 0;
-  var animationTime = 5;
-  var fn = function (time) {
-    if (startTime) {
-      var t = (time - startTime) / 100;
-      if (t > animationTime) {
-        t = animationTime;
-      }
-      var i = ((canvas.height / 2) * t) / animationTime;
-      c.beginPath();
-      c.arc(canvas.width / 2, canvas.height / 2, i, 0, 2 * Math.PI);
-
-      enemies.forEach((enemy, index) => {
-        const dist = Math.hypot(c.x - enemy.x, c.y - enemy.y);
-        if (dist - enemy.radius - c.radius < 1) {
-          for (let i = 0; i < c.radius * 2; i++) {
-            particles.push(
-              new Particle(c.x, c.y, Math.random() * 2, enemy.color, {
-                x: (Math.random() - 0.5) * (Math.random() * 6),
-                y: (Math.random() - 0.5) * (Math.random() * 6)
-              })
-            );
-          }
-        }
-        setTimeout(() => {
-          enemies.splice(index, 1);
-          projectiles.splice(projectileIndex, 1);
-        }, 0);
-      });
-      c.fill();
-      c.stroke();
-
-      if (t < animationTime) {
-        requestAnimationFrame(fn);
-      }
-    } else {
-      startTime = time;
-      requestAnimationFrame(fn);
+  // Bomba: un anello rosso si espande dal giocatore e distrugge tutti i nemici sullo schermo
+  enemies.forEach((enemy) => {
+    for (let i = 0; i < enemy.radius * 2; i++) {
+      particles.push(new Particle(enemy.x, enemy.y, Math.random() * 2, enemy.color, {
+        x: (Math.random() - 0.5) * (Math.random() * 6),
+        y: (Math.random() - 0.5) * (Math.random() * 6)
+      }));
     }
+    score += 10;
+  });
+  enemies = [];
+  scoreEl.textContent = score;
+  let startTime = 0;
+  const animationTime = 5;
+  const fn = function (time) {
+    if (!startTime) startTime = time;
+    const t = Math.min(animationTime, (time - startTime) / 100);
+    const r = ((Math.max(canvas.width, canvas.height) / 2) * t) / animationTime;
+    c.save();
+    c.strokeStyle = "red";
+    c.lineWidth = 5;
+    c.globalAlpha = 1 - t / animationTime;
+    c.beginPath();
+    c.arc(x, y, r, 0, 2 * Math.PI);
+    c.stroke();
+    c.restore();
+    if (t < animationTime) requestAnimationFrame(fn);
   };
   requestAnimationFrame(fn);
 }
 
-const x = canvas.width / 2;
-const y = canvas.height / 2;
-
-let player = new Player(x, y, 10, "white");
+var player = new Player(x, y, 10, "white");
 let projectiles = [];
 let enemies = [];
 let specials = [];
@@ -183,12 +182,18 @@ function init() {
   specials = [];
   particles = [];
   score = 0;
-  scoreEl.innerHTML = score;
-  bigScoreEl.innerHTML = score;
+  scoreEl.textContent = score;
+  bigScoreEl.textContent = score;
+}
+
+let timers = [];
+function stopSpawning() {
+  timers.forEach(clearInterval);
+  timers = [];
 }
 
 function spawEnemies() {
-  setInterval(() => {
+  timers.push(setInterval(() => {
     const radius = Math.random() * (30 - 4) + 4;
 
     let x;
@@ -209,11 +214,11 @@ function spawEnemies() {
     };
 
     enemies.push(new Enemy(x, y, radius, color, velocity));
-  }, 1000);
+  }, 1000));
 }
 
 function spawSpecials() {
-  setInterval(() => {
+  timers.push(setInterval(() => {
     const radius = Math.random() * (30 - 4) + 4;
 
     let x;
@@ -234,7 +239,7 @@ function spawSpecials() {
     };
 
     specials.push(new Special(x, y, radius, color, velocity));
-  }, 30000);
+  }, 30000));
 }
 
 let animationId;
@@ -242,7 +247,6 @@ let score = 0;
 
 function animate() {
   animationId = requestAnimationFrame(animate);
-  stars = 200;
 
   c.fillStyle = "rgba(0, 0, 0, 0.1)";
   c.fillRect(0, 0, canvas.width, canvas.height);
@@ -276,8 +280,9 @@ function animate() {
 
     if (dist - enemy.radius - player.radius < 1) {
       cancelAnimationFrame(animationId);
+      stopSpawning();
       modalEl.style.display = "flex";
-      bigScoreEl.innerHTML = score;
+      bigScoreEl.textContent = score;
     }
 
     projectiles.forEach((projectile, projectileIndex) => {
@@ -299,18 +304,16 @@ function animate() {
           );
         }
         if (enemy.radius - 10 > 5) {
-          score += 100;
-          scoreEl.innerHTML = score / 10;
+          score += 10;
+          scoreEl.textContent = score;
 
-          gsap.to(enemy, {
-            radius: enemy.radius - 10
-          });
+          shrink(enemy, enemy.radius - 10);
           setTimeout(() => {
             projectiles.splice(projectileIndex, 1);
           }, 0);
         } else {
-          score += 250;
-          scoreEl.innerHTML = score / 10;
+          score += 25;
+          scoreEl.textContent = score;
           setTimeout(() => {
             enemies.splice(index, 1);
             projectiles.splice(projectileIndex, 1);
@@ -353,18 +356,16 @@ function animate() {
           );
         }
         if (special.radius - 10 > 5) {
-          score += 100;
-          scoreEl.innerHTML = score / 10;
+          score += 10;
+          scoreEl.textContent = score;
 
-          gsap.to(special, {
-            radius: special.radius - 10
-          });
+          shrink(special, special.radius - 10);
           setTimeout(() => {
             projectiles.splice(projectileIndex, 1);
           }, 0);
         } else {
-          score += 250;
-          scoreEl.innerHTML = score / 10;
+          score += 25;
+          scoreEl.textContent = score;
           setTimeout(() => {
             specials.splice(index, 1);
             projectiles.splice(projectileIndex, 1);
@@ -375,7 +376,8 @@ function animate() {
   });
 }
 
-addEventListener("click", (event) => {
+addEventListener("pointerdown", (event) => {
+  if (modalEl.style.display !== "none") return;
   const angle = Math.atan2(
     event.clientY - canvas.height / 2,
     event.clientX - canvas.width / 2
@@ -385,11 +387,12 @@ addEventListener("click", (event) => {
     y: Math.sin(angle) * 5
   };
   projectiles.push(
-    new Projectile(canvas.width / 2, canvas.height / 2, 5, "white", velocity)
+    new Projectile(x, y, 5, "white", velocity)
   );
 });
 
 startgameBtn.addEventListener("click", () => {
+  stopSpawning();
   init();
   animate();
   spawEnemies();
