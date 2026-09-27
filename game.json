@@ -1,8 +1,14 @@
 {
+  "$schema": "https://raw.githubusercontent.com/pewplay/pewplay/main/schema/game.schema.json",
   "title": "Shooting Ball",
   "description": "Aim and shoot the balls to clear the level and score points.",
-  "keywords": ["shooter", "ball", "arcade", "aim"],
   "category": "Arcade",
+  "tags": [
+    "shooter",
+    "ball",
+    "arcade",
+    "aim"
+  ],
   "author": "PewPlay",
   "playMode": "SinglePlayer"
 }
