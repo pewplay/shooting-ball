@@ -2,15 +2,23 @@
   "$schema": "https://raw.githubusercontent.com/pewplay/pewplay/main/schema/game.schema.json",
   "title": "Shooting Ball",
   "description": "Defend the white ball in the center: shoot the red balls rushing in from every side before they reach you. Free to play in your browser.",
-  "about": "Shooting Ball is a minimalist arcade shooter. You are the small white ball in the middle of a dark screen, and red balls of every size keep drifting towards you from all four edges. Click or tap anywhere and a shot flies in that direction.\n\nSmall red balls burst with a single hit, while big ones shrink with each shot until they pop, so large targets are worth more but take longer to clear. A new enemy appears every second, and the pressure builds fast as they close in from several sides at once.\n\nEvery thirty seconds a yellow ball joins the wave. Shoot it for points, or let it touch you to trigger a red shockwave that wipes every enemy off the screen. It is a quick, reflex-driven game that is easy to learn and hard to put down.",
-  "howToPlay": "Press Start, then click or tap where you want to shoot: bullets fly from the center towards your pointer. Destroy the red balls before any of them touches you, because one hit ends the game. Big balls shrink with each hit, and a yellow ball that reaches you clears the whole screen.",
+  "about": "Shooting Ball is a minimalist arcade shooter. You are the small white ball in the middle of a dark screen, and red balls of every size keep drifting towards you from all four edges. Click or tap anywhere and a shot flies from the center in that direction.\n\nSmall red balls burst with a single hit, while big ones shrink with each shot until they pop, so large targets are worth more but take longer to clear. A new enemy appears every second, and the pressure builds fast as they close in from several sides at once.\n\nEvery thirty seconds a yellow ball joins the wave. Shoot it for points, or let it touch you to trigger a red shockwave that wipes every enemy off the screen. It is a quick, reflex-driven game that is easy to learn and hard to put down, and your best score is saved so you always have something to beat.",
+  "howToPlay": "Press Start, then click or tap where you want to shoot: bullets fly from the center towards that point. Destroy the red balls before any of them touches you, because one hit ends the game. Big balls shrink with each hit, and a yellow ball that reaches you clears the whole screen. Press P or the pause button to take a break.",
   "controls": [
     {
       "input": "Click / Tap",
-      "action": "Shoot towards the pointer"
+      "action": "Shoot towards that point"
     },
     {
-      "input": "Start button",
+      "input": "P / Esc or pause button",
+      "action": "Pause or resume"
+    },
+    {
+      "input": "M or speaker button",
+      "action": "Sound on/off"
+    },
+    {
+      "input": "Start / Play again",
       "action": "Start a new game"
     }
   ],
@@ -27,7 +35,7 @@
     },
     {
       "question": "Can I play on a phone or tablet?",
-      "answer": "Yes. Just tap where you want to shoot; the game fills the screen on phones, tablets and computers."
+      "answer": "Yes. Tap where you want to shoot, with several fingers if you like; the game fills the screen on phones, tablets and computers and adapts its speed to the screen size."
     },
     {
       "question": "How is the score calculated?",
@@ -48,6 +56,7 @@
   "cover": "cover.png",
   "screenshots": [
     "screenshots/1.png",
-    "screenshots/2.png"
+    "screenshots/2.png",
+    "screenshots/3.png"
   ]
 }

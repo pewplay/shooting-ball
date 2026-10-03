@@ -2,22 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
   <title>Shooting Ball</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="icon.png" type="image/png">
 </head>
 <body>
-  <div class="hud"><span>Score: </span><span id="scoreEl">0</span></div>
-  <div id="modalEl" class="modal">
-    <div class="modal__box">
-      <h1 id="bigScoreEl" class="modal__score">0</h1>
-      <p class="modal__label">Points</p>
-      <p class="modal__help">Click or tap to shoot the red balls before they reach you.<br>Touch a yellow ball to blast every enemy on screen.</p>
-      <button id="startgameBtn" class="modal__btn" type="button">Start</button>
+  <div id="stage">
+    <canvas id="game" aria-label="Shooting Ball playfield"></canvas>
+
+    <div class="hud" id="hud">
+      <div class="hud__score"><span class="hud__label">Score</span> <span id="scoreEl">0</span></div>
+      <div class="hud__best"><span class="hud__label">Best</span> <span id="bestEl">0</span></div>
+    </div>
+    <div class="buttons">
+      <button class="icon-btn" id="muteBtn" type="button" aria-label="Mute sound" title="Sound on/off (M)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9h4l5-4v14l-5-4H4z"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="cross" d="M16 9l6 6M22 9l-6 6"/></svg>
+      </button>
+      <button class="icon-btn" id="pauseBtn" type="button" aria-label="Pause" title="Pause (P)" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+      </button>
+    </div>
+
+    <div id="modalEl" class="modal">
+      <div class="modal__box">
+        <h1 class="modal__title" id="titleEl">Shooting Ball</h1>
+        <div id="scoreBlock" hidden>
+          <p class="modal__score" id="bigScoreEl">0</p>
+          <p class="modal__label">Points</p>
+          <p class="modal__best" id="bigBestEl"></p>
+        </div>
+        <p class="modal__help" id="helpEl">Click or tap anywhere to shoot from the center. Destroy the red balls before they reach you.<br>Let a <span class="yellow">yellow ball</span> touch you to blast every enemy on screen.</p>
+        <button id="startgameBtn" class="modal__btn" type="button">Start</button>
+      </div>
+    </div>
+
+    <div id="pauseEl" class="modal" hidden>
+      <div class="modal__box">
+        <h2 class="modal__title">Paused</h2>
+        <button id="resumeBtn" class="modal__btn" type="button">Resume</button>
+      </div>
     </div>
   </div>
-  <canvas></canvas>
   <script src="script.js"></script>
 </body>
 </html>
